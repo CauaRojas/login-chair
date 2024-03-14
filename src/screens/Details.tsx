@@ -2,16 +2,15 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { Text, View } from 'react-native';
 import { RootStackParamList } from '../navigation';
 
-type RegisterScreenRouteProp = RouteProp<RootStackParamList, 'Register'>;
-export default function Register() {
-    const router = useRoute<RegisterScreenRouteProp>();
+type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
+export default function Details() {
+    const router = useRoute<DetailsScreenRouteProp>();
     return (
         <View className={styles.container}>
             <View className={styles.main}>
                 <Text className={styles.title}>Details</Text>
-                <Text className={styles.subtitle}>
-                    Showing details for user {router.params.name}.
-                </Text>
+                <Text className={styles.subtitle}>Seu email: {router.params.email}.</Text>
+                <Text className={styles.subtitle}>Sua senha: {router.params.password}.</Text>
             </View>
         </View>
     );

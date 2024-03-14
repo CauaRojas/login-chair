@@ -1,14 +1,19 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Image, Text, TextInput, View } from 'react-native';
+import { Alert, Image, Text, TextInput, View } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { RootStackParamList } from '../navigation';
 
 type OverviewScreenNavigationProps = StackNavigationProp<RootStackParamList, 'Login'>;
+const createAlert = (msg: string) => {
+    Alert.alert('Erro', msg, [{ text: 'OK', onPress: () => {} }]);
+};
 
 export default function Login() {
     const navigation = useNavigation<OverviewScreenNavigationProps>();
+    let email = '';
+    let password = '';
 
     return (
         <View className={'flex-1 justify-center items-center pt-20'}>
@@ -18,14 +23,32 @@ export default function Login() {
                 </Text>
                 <View className={'flex-row border border-gray-300 p-4 gap-2 items-center'}>
                     <MaterialIcons name="email" size={24} color="grey" />
-                    <TextInput placeholder="Your Email" className={'text-lg'}></TextInput>
+                    <TextInput
+                        placeholder="Your Email"
+                        className={'text-lg'}
+                        onChangeText={(e) => {
+                            email = e;
+                        }}></TextInput>
                 </View>
                 <View className={'flex-row border border-gray-300 p-4 gap-2 items-center'}>
                     <MaterialIcons name="key" size={24} color="grey" />
-                    <TextInput placeholder="Password" className={'text-lg'}></TextInput>
+                    <TextInput
+                        placeholder="Password"
+                        className={'text-lg'}
+                        onChangeText={(e) => {
+                            password = e;
+                        }}></TextInput>
                 </View>
                 <Text
-                    onPress={() => {}}
+                    onPress={() => {
+                        if (email.length < 3) {
+                            createAlert('Email inválido');
+                        } else if (password.length < 6) {
+                            createAlert('Senha inválida');
+                        } else {
+                            navigation.navigate('Details', { email, password });
+                        }
+                    }}
                     className="bg-blue-600 text-white
                 text-center p-4 rounded-lg">
                     Log In
