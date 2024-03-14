@@ -35,6 +35,7 @@ export default function Login() {
                     <TextInput
                         placeholder="Password"
                         className={'text-lg'}
+                        secureTextEntry={true}
                         onChangeText={(e) => {
                             password = e;
                         }}></TextInput>
