@@ -30,8 +30,8 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
 
     return (
-        <View className={'flex-1 justify-center items-center pt-20'}>
-            <View className={'gap-4 font-bold w-4/5 h-full'}>
+        <View className={'flex-1 justify-center items-center pb-20'}>
+            <View className={'gap-4 font-bold w-4/5 '}>
                 <Text style={{ fontWeight: 'bold' }} className={'text-4xl text-left'}>
                     Log In
                 </Text>
