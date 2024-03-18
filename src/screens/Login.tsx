@@ -3,6 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Alert, Image, Text, TextInput, View } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
+import { useState } from 'react';
 import { RootStackParamList } from '../navigation';
 
 type OverviewScreenNavigationProps = StackNavigationProp<RootStackParamList, 'Login'>;
@@ -12,8 +13,8 @@ const createAlert = (msg: string) => {
 
 export default function Login() {
     const navigation = useNavigation<OverviewScreenNavigationProps>();
-    let email = '';
-    let password = '';
+    let [email, setEmail] = useState('');
+    let [password, setPassword] = useState('');
 
     return (
         <View className={'flex-1 justify-center items-center pt-20'}>
@@ -27,7 +28,7 @@ export default function Login() {
                         placeholder="Your Email"
                         className={'text-lg'}
                         onChangeText={(e) => {
-                            email = e;
+                            setEmail(e);
                         }}></TextInput>
                 </View>
                 <View className={'flex-row border border-gray-300 p-4 gap-2 items-center'}>
@@ -37,7 +38,7 @@ export default function Login() {
                         className={'text-lg'}
                         secureTextEntry={true}
                         onChangeText={(e) => {
-                            password = e;
+                            setPassword(e);
                         }}></TextInput>
                 </View>
                 <Text
@@ -77,7 +78,10 @@ export default function Login() {
                             <Text style={{ fontWeight: 'bold' }}>Google</Text>
                         </View>
                         <View className="flex-row gap-4 border border-gray-400 px-8 items-center py-1 rounded-lg w-1/2">
-                            <MaterialIcons name="facebook" size={24} color="#17A9FD" />
+                            <Image
+                                source={require('../../assets/facebook.png')}
+                                className="w-[24px] h-[24px]"
+                            />
                             <Text style={{ fontWeight: 'bold' }}>Facebook</Text>
                         </View>
                     </View>
@@ -87,9 +91,7 @@ export default function Login() {
                     <Text
                         style={{ fontWeight: 'bold' }}
                         className={'text-center text-blue-700 text-lg'}
-                        onPress={() => {
-                            navigation.navigate('Register', { name: 'Jane' });
-                        }}>
+                        onPress={() => {}}>
                         Sign Up
                     </Text>
                 </Text>
