@@ -1,11 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Details from '~/screens/Details';
-import Login from '../screens/Login';
+import { Session } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { supabase } from 'utils/supabase';
-import { Session } from '@supabase/supabase-js';
+import Details from '~/screens/Details';
+import Login from '../screens/Login';
 
 export type RootStackParamList = {
     Login: undefined;
@@ -29,9 +29,17 @@ export default function RootStack() {
     }, []);
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName={session? "Details" : "Login"}>
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="Details" component={Details} initialParams={{email: session?.user?.email || '', password: 'Não Disponível'}} />
+            <Stack.Navigator initialRouteName={session ? 'Details' : 'Login'}>
+                <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                <Stack.Screen
+                    name="Details"
+                    component={Details}
+                    initialParams={{
+                        email: session?.user?.email || '',
+                        password: 'Não Disponível',
+                    }}
+                    options={{ headerShown: false }}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );
