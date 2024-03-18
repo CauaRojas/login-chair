@@ -3,7 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Alert, Image, Text, TextInput, View } from 'react-native';
 
 import { MaterialIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { createRef, useState } from 'react';
 import { RootStackParamList } from '../navigation';
 import { supabase } from 'utils/supabase';
 
@@ -22,6 +22,8 @@ const signInWithEmail = async (email:string, password:string) => {
 };
 
 export default function Login() {
+    const emailInput = createRef<TextInput>();
+    const passwordInput = createRef<TextInput>();
     const navigation = useNavigation<OverviewScreenNavigationProps>();
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
@@ -33,30 +35,52 @@ export default function Login() {
                     Log In
                 </Text>
                 <View className={'flex-row border border-gray-300 p-4 gap-2 items-center'}>
-                    <MaterialIcons name="email" size={24} color="grey" />
+                    <MaterialIcons
+                        name="email"
+                        size={24}
+                        color="grey"
+                        onPress={() => {
+                            emailInput.current?.focus();
+                        }}
+                    />
                     <TextInput
                         placeholder="Your Email"
                         className={'text-lg'}
+                        ref={emailInput}
                         onChangeText={(e) => {
                             setEmail(e);
                         }}></TextInput>
                 </View>
                 <View className={'flex-row border border-gray-300 p-4 gap-2 items-center'}>
-                    <MaterialIcons name="key" size={24} color="grey" />
+                    <MaterialIcons
+                        name="key"
+                        size={24}
+                        color="grey"
+                        onPress={() => {
+                            passwordInput.current?.focus();
+                        }}
+                    />
                     <TextInput
                         placeholder="Password"
                         className={'text-lg'}
                         secureTextEntry={true}
+                        ref={passwordInput}
                         onChangeText={(e) => {
                             setPassword(e);
                         }}></TextInput>
                 </View>
                 <Text
+<<<<<<< HEAD
                     onPress={async () => {
                         if (email.length < 3) {
+=======
+                    onPress={() => {
+                        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                        if (!emailRegex.test(email)) {
+>>>>>>> 3b00a25b175511c5c6d63b90cd23f3819f032824
                             createAlert('Email inválido');
                         } else if (password.length < 6) {
-                            createAlert('Senha inválida');
+                            createAlert('Senha inválida, insira no mínimo 6 caracteres');
                         } else {
                             const error = await signInWithEmail(email,password)
                             if(error){
