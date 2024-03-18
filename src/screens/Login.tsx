@@ -5,10 +5,20 @@ import { Alert, Image, Text, TextInput, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import { RootStackParamList } from '../navigation';
+import { supabase } from 'utils/supabase';
 
 type OverviewScreenNavigationProps = StackNavigationProp<RootStackParamList, 'Login'>;
 const createAlert = (msg: string) => {
     Alert.alert('Erro', msg, [{ text: 'OK', onPress: () => {} }]);
+};
+
+const signInWithEmail = async (email:string, password:string) => {
+    console.log('rodou');
+    const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+    });
+    return error
 };
 
 export default function Login() {
@@ -42,13 +52,19 @@ export default function Login() {
                         }}></TextInput>
                 </View>
                 <Text
-                    onPress={() => {
+                    onPress={async () => {
                         if (email.length < 3) {
                             createAlert('Email inválido');
                         } else if (password.length < 6) {
                             createAlert('Senha inválida');
                         } else {
-                            navigation.navigate('Details', { email, password });
+                            const error = await signInWithEmail(email,password)
+                            if(error){
+                                createAlert("Erro ao realizer o login: " + error.message)
+                            }
+                            else{
+                                navigation.replace("Details", {email,password})
+                            }
                         }
                     }}
                     className="bg-blue-600 text-white
