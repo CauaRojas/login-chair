@@ -27,6 +27,7 @@ export default function Login() {
     const navigation = useNavigation<OverviewScreenNavigationProps>();
     let [email, setEmail] = useState('');
     let [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     return (
         <View className={'flex-1 justify-center items-center pt-20'}>
@@ -70,14 +71,20 @@ export default function Login() {
                         }}></TextInput>
                 </View>
                 <Text
+                    disabled={loading}
                     onPress={async () => {
+                        if (loading) {
+                            return;
+                        }
                         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
                         if (!emailRegex.test(email)) {
                             createAlert('Email inválido');
                         } else if (password.length < 6) {
                             createAlert('Senha inválida, insira no mínimo 6 caracteres');
                         } else {
+                            setLoading(true);
                             const error = await signInWithEmail(email, password);
+                            setLoading(false);
                             if (error) {
                                 createAlert('Erro ao realizer o login: ' + error.message);
                             } else {
@@ -85,8 +92,7 @@ export default function Login() {
                             }
                         }
                     }}
-                    className="bg-blue-600 text-white
-                text-center p-4 rounded-lg">
+                    className={`${loading ? 'bg-blue-300' : 'bg-blue-600'} text-white text-center p-4 rounded-lg`}>
                     Log In
                 </Text>
                 <Text
