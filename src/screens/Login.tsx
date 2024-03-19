@@ -13,7 +13,6 @@ const createAlert = (msg: string) => {
 };
 
 const signInWithEmail = async (email: string, password: string) => {
-    console.log('rodou');
     const { error } = await supabase.auth.signInWithPassword({
         email,
         password,

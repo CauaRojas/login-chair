@@ -8,6 +8,7 @@ type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 type DetailsScreenNavigationProps = StackNavigationProp<RootStackParamList, 'Details'>;
 
 const doLogout = async () => {
+    console.log('rodou Logout')
     const { error } = await supabase.auth.signOut();
     return error
 };
